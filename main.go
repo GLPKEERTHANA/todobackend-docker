@@ -601,7 +601,7 @@ func feedDone(w http.ResponseWriter, r *http.Request) {
 	InfoLogger.Println("Called to get completed tasks of a user")
 	vars := mux.Vars(r)
 	user_id := vars["id"]
-	var user_id int = login.User_id
+	//var user_id int = login.User_id
 	//db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb")
 	db, err := sql.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
 	
@@ -643,13 +643,13 @@ func main() {
 	port:=os.Getenv("PORT")
 	log.Println("Server started on: http://localhost:8080")
 	log.Println("Server started on: http://localhost:8080")
-	mux.HandleFunc("/todo/users/signup", signup).Methods("POST")
+	//mux.HandleFunc("/todo/users/signup", signup).Methods("POST")
 	mux.HandleFunc("/todo/users/login", login).Methods("POST")
 	mux.HandleFunc("/todo/task/{feedId}", feedDelete).Methods("DELETE")
 	mux.HandleFunc("/todo/task/{feedId}", feedstatus).Methods("PUT")
 	mux.HandleFunc("/todo/task/statusFalse/{userId}", feed).Methods("GET")
 	mux.HandleFunc("/todo/task/statusTrue/{userId}", feedDone).Methods("GET")
-	mux.HandleFunc("/todo/users", taskUsers).Methods("GET")
+	mux.HandleFunc("/todo/users", feedusers).Methods("GET")
 	mux.HandleFunc("/todo/task", feedUpdate).Methods("POST")
 	handler := cors.Default().Handler(mux)
 	c := cors.New(cors.Options{
