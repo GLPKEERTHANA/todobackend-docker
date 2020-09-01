@@ -78,7 +78,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("-------------------------------------Login called--------------------------------------------------------")
 	InfoLogger.Println("Starting the application...")
 	//db, err := gorm.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb") username:password
-	db, err := gorm.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
+	db, err := sql.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
 	
 	if err != nil {
 		panic("failed to connect database")
@@ -377,7 +377,7 @@ func feedstatus(w http.ResponseWriter, r *http.Request) {
 	feedid := login.Feed_id
 	InfoLogger.Println("Task Status updation called")
 	//db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb")
-	db, err := gorm.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
+	db, err := sql.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
 	
 	if err != nil {
 		ErrorLogger.Println(err.Error())
@@ -422,7 +422,7 @@ func feedDelete(w http.ResponseWriter, r *http.Request) {
 	var feedid int = login.Feed_id
 	InfoLogger.Println("Task Deletion called")
 	//db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb")
-	db, err := gorm.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
+	db, err := sql.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
 	
 	if err != nil {
 		ErrorLogger.Println(err.Error())
@@ -449,7 +449,7 @@ func feedUpdate(w http.ResponseWriter, r *http.Request) {
 	InfoLogger.Println("New Task addition " + feed)
 	var status string = "F"
 	//db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb")
-	db, err := gorm.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
+	db, err := sql.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
 	
 	if err != nil {
 		ErrorLogger.Println(err.Error())
@@ -472,7 +472,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 	var username string = login.Username
 	var password string = login.Password
 	//db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb")
-	db, err := gorm.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
+	db, err := sql.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
 	
 	if err != nil {
 		ErrorLogger.Println(err.Error())
@@ -522,7 +522,7 @@ func feedusers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	InfoLogger.Println("Called to get the usernames of all users")
 	//db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb")
-	db, err := gorm.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
+	db, err := sql.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
 	
 	if err != nil {
 		ErrorLogger.Println(err.Error())
@@ -563,7 +563,7 @@ func feed(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewDecoder(r.Body).Decode(&login)
 	var user_id int = login.User_id
 	//db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb")
-	db, err := gorm.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
+	db, err := sql.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
 	
 	if err != nil {
 		ErrorLogger.Println(err.Error())
@@ -604,7 +604,7 @@ func feedDone(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewDecoder(r.Body).Decode(&login)
 	var user_id int = login.User_id
 	//db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb")
-	db, err := gorm.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
+	db, err := sql.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
 	
 	if err != nil {
 		ErrorLogger.Println(err.Error())
