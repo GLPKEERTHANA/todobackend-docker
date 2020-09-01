@@ -559,9 +559,8 @@ func feedusers(w http.ResponseWriter, r *http.Request) {
 func feed(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	InfoLogger.Println("Called to get incomplete tasks of a user")
-	var login UserID
-	_ = json.NewDecoder(r.Body).Decode(&login)
-	var user_id int = login.User_id
+	vars := mux.Vars(r)
+	user_id := vars["id"]
 	//db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb")
 	db, err := sql.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
 	
@@ -600,8 +599,8 @@ func feed(w http.ResponseWriter, r *http.Request) {
 func feedDone(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	InfoLogger.Println("Called to get completed tasks of a user")
-	var login UserID
-	_ = json.NewDecoder(r.Body).Decode(&login)
+	vars := mux.Vars(r)
+	user_id := vars["id"]
 	var user_id int = login.User_id
 	//db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb")
 	db, err := sql.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
@@ -643,13 +642,15 @@ func main() {
 	mux := mux.NewRouter()
 	port:=os.Getenv("PORT")
 	log.Println("Server started on: http://localhost:8080")
-	mux.HandleFunc("/login", login).Methods("POST")
-	mux.HandleFunc("/feed", feed).Methods("POST")
-	mux.HandleFunc("/feedDone", feedDone).Methods("POST")
-	mux.HandleFunc("/feedUpdate", feedUpdate).Methods("POST")
-	mux.HandleFunc("/{id}", feedDelete).Methods("DELETE")
-	mux.HandleFunc("/feedstatus", feedstatus).Methods("POST")
-	mux.HandleFunc("/feedusers", feedusers).Methods("POST")
+	log.Println("Server started on: http://localhost:8080")
+	mux.HandleFunc("/todo/users/signup", signup).Methods("POST")
+	mux.HandleFunc("/todo/users/login", login).Methods("POST")
+	mux.HandleFunc("/todo/task/{feedId}", feedDelete).Methods("DELETE")
+	mux.HandleFunc("/todo/task/{feedId}", feedstatus).Methods("PUT")
+	mux.HandleFunc("/todo/task/statusFalse/{userId}", feed).Methods("GET")
+	mux.HandleFunc("/todo/task/statusTrue/{userId}", feedDone).Methods("GET")
+	mux.HandleFunc("/todo/users", taskUsers).Methods("GET")
+	mux.HandleFunc("/todo/task", feedUpdate).Methods("POST")
 	handler := cors.Default().Handler(mux)
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
@@ -662,6 +663,7 @@ func main() {
 		AllowedHeaders: []string{"*"},
 		Debug:          true,
 	})
+
 
 	handler = c.Handler(handler)
 	//log.Fatal(http.ListenAndServe(":8080", handler))
