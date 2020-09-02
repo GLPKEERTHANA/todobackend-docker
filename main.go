@@ -294,11 +294,13 @@ func feedUpdate(w http.ResponseWriter, r *http.Request) {
 
 	}
 	feed1 := Feed{Feed: feed, Feed_status: status, User_id: user_id}
-	db.NewRecord(feed1)
+	//db.NewRecord(feed1)
 	db.Create(&feed1)
-	ErrorObject = ErrorObjectInitialisation("Task Inserted", "Task Inserted", 201, "Task Inserted")
+	//ErrorObject = ErrorObjectInitialisation("Task Inserted", "Task Inserted", 201, "Task Inserted")
 	w.WriteHeader(201)
-	json.NewEncoder(w).Encode(ErrorObject)
+	var feedinserted Feed
+	db.Where("user_id = ? AND feed = ?", user_id, feed).Find(&feedinserted)
+	json.NewEncoder(w).Encode(feedinserted)
 	InfoLogger.Println("New Task addition complete.. ")
 
 }
@@ -370,25 +372,31 @@ func feedstatus(w http.ResponseWriter, r *http.Request) {
 	var status string = feed.Feed_status
 	var status1 string = ""
 	if status == "T" {
+		feed.Feed_status = "F"
 		status1 = "F"
 		db.Table("feeds").Where("feed_id = ? ", feedid).Updates(map[string]interface{}{"feed_status": status1})
 
 	} else {
 		status1 = "T"
+		feed.Feed_status = "T"
 		db.Table("feeds").Where("feed_id = ? ", feedid).Updates(map[string]interface{}{"feed_status": status1})
 
 	}
-	ErrorObject = ErrorObjectInitialisation("Task Updation Success", "Task Updation Success", 200, "Task Updation Success")
-	ErrorLogger.Println(err)
+	//feedinserted := Feed{}
+	//db.Table("feeds").Where("feed_id = ? ", feedid).Find(&feedinserted)
+	//db.Where(" feed = ?", feedid).Find(&feedinserted)
+
+	fmt.Println(feed)
+	//ErrorObject = ErrorObjectInitialisation("Task Updation Success", "Task Updation Success", 200, "Task Updation Success")
 	w.WriteHeader(200)
-	json.NewEncoder(w).Encode(ErrorObject)
+	json.NewEncoder(w).Encode(feed)
 	InfoLogger.Println("Task status updation done... ")
 
 }
 
 func main() {
 	mux := mux.NewRouter()
-	port := os.Getenv("PORT")
+	//port := os.Getenv("PORT")
 	log.Println("Server started on: http://localhost:8080")
 	mux.HandleFunc("/todo/users/signup", signup).Methods("POST")
 	mux.HandleFunc("/todo/users/login", login).Methods("POST")
@@ -413,6 +421,6 @@ func main() {
 
 	handler = c.Handler(handler)
 
-	log.Fatal(http.ListenAndServe(":"+port, handler))
-	//log.Fatal(http.ListenAndServe(":8080", handler))
+	//log.Fatal(http.ListenAndServe(":"+port, handler))
+	log.Fatal(http.ListenAndServe(":8080", handler))
 }
