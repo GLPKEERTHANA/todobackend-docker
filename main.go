@@ -276,8 +276,8 @@ func feedUpdate(w http.ResponseWriter, r *http.Request) {
 	var usercount int
 	var user Users
 	var ErrorObject Error
-	db, err := gorm.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb")
-	//db, err := gorm.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
+	//db, err := gorm.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb")
+	db, err := gorm.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
 	if err != nil {
 		ErrorObject = ErrorObjectInitialisation("Internal Server Error", "Internal Server Error", 500, "Internal Server Error")
 		ErrorLogger.Println(err)
@@ -309,8 +309,8 @@ func feedDelete(w http.ResponseWriter, r *http.Request) {
 	var ErrorObject Error
 	vars := mux.Vars(r)
 	feedid := vars["feedId"]
-	db, err := gorm.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb")
-	//db, err := gorm.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
+	//db, err := gorm.Open("mysql", "root:@tcp(127.0.0.1:3306)/reactdb")
+	db, err := gorm.Open("mysql", "sql12362860:nxBBF29dcx@tcp(sql12.freemysqlhosting.net:3306)/sql12362860")
 	if err != nil {
 		ErrorObject = ErrorObjectInitialisation("Internal Server Error", "Internal Server Error", 500, "Internal Server Error")
 		ErrorLogger.Println(err)
