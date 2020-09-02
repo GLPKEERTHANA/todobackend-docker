@@ -396,7 +396,7 @@ func feedstatus(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	mux := mux.NewRouter()
-	//port := os.Getenv("PORT")
+	port := os.Getenv("PORT")
 	log.Println("Server started on: http://localhost:8080")
 	mux.HandleFunc("/todo/users/signup", signup).Methods("POST")
 	mux.HandleFunc("/todo/users/login", login).Methods("POST")
@@ -421,6 +421,6 @@ func main() {
 
 	handler = c.Handler(handler)
 
-	//log.Fatal(http.ListenAndServe(":"+port, handler))
-	log.Fatal(http.ListenAndServe(":8080", handler))
+	log.Fatal(http.ListenAndServe(":"+port, handler))
+	//log.Fatal(http.ListenAndServe(":8080", handler))
 }
